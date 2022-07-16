@@ -1,14 +1,17 @@
-# Every Man Jacked (Client)
+# Every Man Jacked (Admin)
 
 Every Man Jacked is a workout tool that helps users structure their own workouts with specific goals for strength and weight loss in mind. It allows a user to select an exercise category / muscle group to filter exercises before constructing their own workout. It also has a feature to generate a randomized workout based on criteria they specify.
+
+This application is the admin panel where admin users can log in, moderate other users, and CRUD exercises. This panel will allow for more administrator functionality to be built out in future updates.
 
 This application is built using TypeScript and React for a quick and concise experience.
 
 ### Upcoming Features
 
 - [ ] UI / UX redesign
-- [ ] User authentication
-- [ ] Exercise log
+- [x] User authentication
+- [ ] User role changes
+- [ ] CRUD Exercise
 - [ ] User messenger
 - [ ] Coaching role / support
 - [ ] Multi-language Support
