@@ -72,8 +72,8 @@ const LoginForm: React.FC = () => {
           </Box>
 
           <Typography color='red' variant='h6'>
-              {currentError}
-            </Typography>
+            {currentError}
+          </Typography>
         </Box>
       </Container>
     </ThemeProvider>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import RequireAuth from './components/auth/RequireAuth';
+import Dashboard from './components/Dashboard';
 import LoginForm from './components/LoginForm';
 import Navbar from './components/Navbar';
 import { SessionContext, SessionUser, useSessionContext, SessionContextUser } from './context/session.context';
@@ -38,7 +39,7 @@ const App: React.FC = () => {
 
           {/* Private Routes */}
           <Route element={<RequireAuth isLoggedIn={userState.isLoggedIn} />}>
-            <Route path='/' element={<p>Hello World</p>} />
+            <Route path='/' element={<Dashboard />} />
             <Route path='*' element={<p>Yooooooo</p>} />
           </Route>
         </Routes>

@@ -53,6 +53,7 @@ export const login = async (email: string, password: string): Promise<AxiosRespo
 
 export const logout = (): void => {
   clearTokenStorage();
+  window.location.reload();
 };
 
 export const refresh = async (): Promise<void> => {
