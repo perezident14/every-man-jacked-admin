@@ -11,6 +11,8 @@ const LoginForm: React.FC = () => {
   const sessionContext = useSessionContext();
   const navigate = useNavigate();
 
+  const [currentError, setCurrentError] = React.useState<string>('');
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -19,12 +21,16 @@ const LoginForm: React.FC = () => {
     const userPassword = String(formData.get('password'));
 
     login(userEmail, userPassword)
-      .then((result) => {
-        setTokenStorage(result);
-        sessionContext.setUser(true, result.user);
+      .then((response) => response.data)
+      .then((data) => {
+        setTokenStorage(data);
+        sessionContext.setUser(true, data.user);
         navigate('/');
       })
-      .catch((error: any) => console.error(error));
+      .catch((error: any) => {
+        console.error(error.response.data);
+        setCurrentError(error.response.data);
+      });
   };
 
   useEffect(() => {
@@ -44,6 +50,7 @@ const LoginForm: React.FC = () => {
           <Typography component='h1' variant='h5'>
             Admin Login
           </Typography>
+
           <Box component='form' onSubmit={handleSubmit} sx={{ marginTop: 1 }}>
             <TextField
               fullWidth
@@ -59,10 +66,14 @@ const LoginForm: React.FC = () => {
               name='password'
               type='password'
             />
-            <Button fullWidth type='submit' variant='contained' sx={{ marginTop: 2 }}>
+            <Button fullWidth type='submit' variant='contained' sx={{ marginBottom: 2, marginTop: 2 }}>
               Log In
             </Button>
           </Box>
+
+          <Typography color='red' variant='h6'>
+              {currentError}
+            </Typography>
         </Box>
       </Container>
     </ThemeProvider>

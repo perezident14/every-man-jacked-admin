@@ -1,15 +1,17 @@
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import jwt_decode from 'jwt-decode';
 import { TokenData } from '../models/auth.model';
 
-export const setupInit = (method: string, body: any): RequestInit => {
+export const setupConfig = (method: string, url: string, data: any): AxiosRequestConfig => {
   return {
     method,
+    url: process.env.REACT_APP_API_URL + url,
     headers: {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Credentials': 'true',
       'Access-Control-Allow-Origin': '*',
     },
-    body: JSON.stringify(body),
+    data,
   }
 };
 
@@ -34,22 +36,19 @@ export const clearTokenStorage = (): void => {
   localStorage.removeItem('RefreshToken');
 };
 
-export const register = async (body: any) => {
-  const init = setupInit('POST', body);
-  const response = await fetch(`${process.env.REACT_APP_API_URL}/account/register`, init);
-  const data = await response.json();
+// NEEDED?
+export const register = async (data: any) => {
+  const config = setupConfig('POST', '/account/register', data);
+  return axios.request(config);
 
-  setTokenStorage(data);
-  return data;
+
+  // setTokenStorage(data);
+  // return data;
 };
 
-export const login = async (email: string, password: string) => {
-  const init = setupInit('POST', { email, password });
-  const response = await fetch(`${process.env.REACT_APP_API_URL}/account/login`, init);
-  const data = await response.json();
-
-  setTokenStorage(data);
-  return data;
+export const login = async (email: string, password: string): Promise<AxiosResponse> => {
+  const config = setupConfig('POST', '/account/admin/login', { email, password });
+  return axios.request(config);
 };
 
 export const logout = (): void => {
@@ -62,11 +61,11 @@ export const refresh = async (): Promise<void> => {
     throw new Error('No Refresh Token Found');
   }
 
-  const init = setupInit('POST', { refreshToken });
-  const response = await fetch(`${process.env.REACT_APP_API_URL}/account/refresh`, init);
-  const data = await response.json();
-
-  setTokenStorage(data);
+  const config = setupConfig('POST', '/account/refresh', { refreshToken });
+  axios.request(config)
+    .then((response) => response.data)
+    .then((data => setTokenStorage(data)))
+    .catch((error) => console.error(error.response.data));
 };
 
 export const isExpired = (unixTime: number): boolean => {
