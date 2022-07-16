@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Avatar, Box, Button, Container, createTheme, CssBaseline, TextField, ThemeProvider, Typography } from '@mui/material';
 import { LockOutlined } from '@mui/icons-material';
 import { login, setTokenStorage } from '../api/auth.api';
+import { useSessionContext } from '../context/session.context';
 
 const LoginForm: React.FC = () => {
 
   const theme = createTheme();
+  const sessionContext = useSessionContext();
+  const navigate = useNavigate();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -15,9 +19,19 @@ const LoginForm: React.FC = () => {
     const userPassword = String(formData.get('password'));
 
     login(userEmail, userPassword)
-      .then((result) => setTokenStorage(result))
+      .then((result) => {
+        setTokenStorage(result);
+        sessionContext.setUser(true, result.user);
+        navigate('/');
+      })
       .catch((error: any) => console.error(error));
   };
+
+  useEffect(() => {
+    if (sessionContext.isLoggedIn) {
+      navigate('/');
+    };
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
