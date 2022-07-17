@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useState } from 'react';
 import jwt_decode from 'jwt-decode';
 import { UserRole } from '../models/user.model';
 import { clearTokenStorage, isExpired, refresh } from '../api/auth.api';
@@ -29,7 +29,7 @@ export const initialSessionContext: SessionContextUser = {
   } as SessionUser,
 };
 
-export const setUserState = (isLoggedIn: boolean, data: SessionUser): SessionContextUser => {
+export const createSessionState = (isLoggedIn: boolean, data: SessionUser): SessionContextUser => {
   return {
     isLoggedIn,
     user: {
@@ -54,20 +54,45 @@ export const sessionContextSetup = (): SessionContextUser => {
   const accessTokenDecoded = jwt_decode(accessToken) as any;
   const accessTokenExpiration = parseInt(accessTokenDecoded.exp);
   if (!isExpired(accessTokenExpiration)) {
-    return setUserState(true, accessTokenDecoded);
+    return createSessionState(true, accessTokenDecoded);
   } 
 
   const refreshTokenDecoded = jwt_decode(String(refreshToken)) as any;
   const refreshTokenExpiration = parseInt(refreshTokenDecoded.exp);
   if (!isExpired(refreshTokenExpiration)) {
     refresh();
-    return setUserState(true, refreshTokenDecoded);
+    return createSessionState(true, refreshTokenDecoded);
   }
 
   clearTokenStorage();
   return initialSessionContext;
 };
 
-export const SessionContext = createContext({ ...sessionContextSetup(), setUser: (isLoggedIn: boolean, user: SessionUser) => {} });
+export const SessionContext = createContext({} as { user: SessionUser, isLoggedIn: boolean, setSession: (isLoggedIn: boolean, user: SessionUser) => void });
 
 export const useSessionContext = () => useContext(SessionContext);
+
+export function SessionProvider({ children }: { children: any }) {
+
+  const [sessionState, setSessionState] = useState<SessionContextUser>(sessionContextSetup());
+
+  const setSession = (isLoggedIn: boolean, data: SessionUser): void => {
+    setSessionState({
+      isLoggedIn,
+      user: {
+        '_id': data._id,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        role: data.role,
+        workouts: data.workouts,
+      } as SessionUser,
+    });
+  };
+
+  return (
+    <SessionContext.Provider value={{ ...sessionState, setSession }}>
+      {children}
+    </SessionContext.Provider>
+  );
+};

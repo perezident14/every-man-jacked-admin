@@ -29,7 +29,7 @@ export const checkTokenStorage = (): boolean => {
   }
 
   return true;
-}
+};
 
 export const clearTokenStorage = (): void => {
   localStorage.removeItem('AccessToken');
@@ -37,7 +37,7 @@ export const clearTokenStorage = (): void => {
 };
 
 // NEEDED?
-export const register = async (data: any) => {
+export const register = (data: any): Promise<AxiosResponse> => {
   const config = setupConfig('POST', '/account/register', data);
   return axios.request(config);
 
@@ -46,7 +46,7 @@ export const register = async (data: any) => {
   // return data;
 };
 
-export const login = async (email: string, password: string): Promise<AxiosResponse> => {
+export const login = (email: string, password: string): Promise<AxiosResponse> => {
   const config = setupConfig('POST', '/account/admin/login', { email, password });
   return axios.request(config);
 };

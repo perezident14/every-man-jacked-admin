@@ -24,7 +24,7 @@ const LoginForm: React.FC = () => {
       .then((response) => response.data)
       .then((data) => {
         setTokenStorage(data);
-        sessionContext.setUser(true, data.user);
+        sessionContext.setSession(true, data.user);
         navigate('/');
       })
       .catch((error: any) => {
