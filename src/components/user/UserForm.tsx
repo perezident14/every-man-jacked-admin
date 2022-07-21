@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Avatar, Box, Button, Container, createTheme, CssBaseline, FormControl, Grid, MenuItem, TextField, ThemeProvider, Typography } from '@mui/material';
-import { PeopleRounded } from '@mui/icons-material';
+import { KeyboardBackspace, PeopleRounded } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useFeedbackContext } from '../../context/feedback.context';
@@ -17,6 +18,8 @@ const UserForm = ({ id, user, handleSetUser }: UserFormProps) => {
 
   const theme = createTheme();
   const feedbackContext = useFeedbackContext();
+
+  const navigate = useNavigate();
 
   const [currentError, setCurrentError] = useState<String>('');
 
@@ -63,6 +66,9 @@ const UserForm = ({ id, user, handleSetUser }: UserFormProps) => {
     <ThemeProvider theme={theme}>
       <Container component='main' maxWidth='md'>
         <CssBaseline />
+        <Box onClick={() => navigate('/users')} sx={{ cursor: 'pointer', display: 'flex', position: 'absolute', marginTop: -4 }}>
+          <KeyboardBackspace sx={{ marginRight: 0.5 }} /> Back to Users
+        </Box>
         <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column', marginTop: 8 }}>
           <Avatar sx={{ margin: 1, backgroundColor: 'secondary' }}>
             <PeopleRounded />
