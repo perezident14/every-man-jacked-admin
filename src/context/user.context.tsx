@@ -26,7 +26,8 @@ export function UserProvider({ children }: { children: any }) {
 
   useEffect(() => {
     if (sessionContext.isLoggedIn) {
-      setupUsers();
+      // Wait to allow new AccessToken to be set if needed
+      setTimeout(() => setupUsers(), 1000);
     } else {
       setUsers([]);
     }

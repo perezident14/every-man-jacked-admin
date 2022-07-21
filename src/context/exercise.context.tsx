@@ -26,7 +26,8 @@ export function ExerciseProvider({ children }: { children: any }) {
 
   useEffect(() => {
     if (sessionContext.isLoggedIn) {
-      setupExercises();
+      // Wait to allow new AccessToken to be set if needed
+      setTimeout(() => setupExercises(), 1000);
     } else {
       setExercises([]);
     }

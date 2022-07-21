@@ -1,13 +1,10 @@
 import React from 'react';
 import { Avatar, Box, Button, Container, createTheme, CssBaseline, ThemeProvider, Typography } from '@mui/material';
-import { PersonRounded } from '@mui/icons-material';
-import { logout } from '../api/auth.api';
-import { useSessionContext } from '../context/session.context';
+import { FitnessCenterRounded } from '@mui/icons-material';
 
-const Dashboard: React.FC = () => {
+const ExerciseDashboard: React.FC = () => {
 
   const theme = createTheme();
-  const sessionContext = useSessionContext();
 
   return (
     <ThemeProvider theme={theme}>
@@ -15,13 +12,13 @@ const Dashboard: React.FC = () => {
         <CssBaseline />
         <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column', marginTop: 8 }}>
           <Avatar sx={{ margin: 1, backgroundColor: 'secondary' }}>
-            <PersonRounded />
+            <FitnessCenterRounded />
           </Avatar>
           <Typography component='h1' variant='h5'>
-            {sessionContext.user.firstName} {sessionContext.user.lastName}
+            Exercise Dashboard
           </Typography>
-          <Button variant='contained' sx={{ marginBottom: 2, marginTop: 2 }} onClick={() => logout()}>
-            Log Out
+          <Button variant='contained' sx={{ marginBottom: 2, marginTop: 2 }}>
+            Button
           </Button>
         </Box>
       </Container>
@@ -29,4 +26,4 @@ const Dashboard: React.FC = () => {
   );
 }
 
-export default Dashboard;
+export default ExerciseDashboard;

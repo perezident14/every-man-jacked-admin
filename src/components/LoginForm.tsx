@@ -57,6 +57,7 @@ const LoginForm: React.FC = () => {
               margin='normal'
               label='Email'
               name='email'
+              type='email'
               autoFocus
             />
             <TextField

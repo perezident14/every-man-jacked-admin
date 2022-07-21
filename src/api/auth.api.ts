@@ -56,16 +56,19 @@ export const logout = (): void => {
   window.location.reload();
 };
 
-export const refresh = async (): Promise<void> => {
+export const refresh = async (): Promise<string> => {
   const refreshToken = localStorage.getItem('RefreshToken');
   if (!refreshToken) {
     throw new Error('No Refresh Token Found');
   }
 
   const config = setupConfig('POST', '/account/refresh', { refreshToken });
-  axios.request(config)
+  return axios.request(config)
     .then((response) => response.data)
-    .then((data => setTokenStorage(data)))
+    .then((data => {
+      setTokenStorage(data)
+      return data.AuthenticationResult.AccessToken;
+    }))
     .catch((error) => console.error(error.response.data));
 };
 
@@ -74,27 +77,11 @@ export const isExpired = (unixTime: number): boolean => {
   return expiration < Date.now();
 };
 
-export const checkExpiration = (): boolean => {
-  const accessToken = localStorage.getItem('AccessToken');
-  const refreshToken = localStorage.getItem('RefreshToken');
-  if (!accessToken || !refreshToken) {
-    clearTokenStorage();
-    return true;
-  }
-
-  const accessTokenDecoded = jwt_decode(accessToken) as any;
-  const accessTokenExpiration = parseInt(accessTokenDecoded.exp);
-  if (!isExpired(accessTokenExpiration)) {
-    return false;
-  } 
-
-  const refreshTokenDecoded = jwt_decode(String(refreshToken)) as any;
-  const refreshTokenExpiration = parseInt(refreshTokenDecoded.exp);
-  if (!isExpired(refreshTokenExpiration)) {
-    refresh();
+export const isTokenExpired = (token: string): boolean => {
+  const tokenDecoded = jwt_decode(token) as any;
+  const tokenExpiration = parseInt(tokenDecoded.exp);
+  if (!isExpired(tokenExpiration)) {
     return false;
   }
-
-  clearTokenStorage();
   return true;
 };
