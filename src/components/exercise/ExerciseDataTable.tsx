@@ -4,6 +4,7 @@ import { Delete, Edit } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 import { useExerciseContext } from '../../context/exercise.context';
+import { DataType } from '../../models/data.model';
 import DataTable from '../DataTable';
 import DeleteModal from '../DeleteModal';
 
@@ -13,15 +14,18 @@ const ExerciseDataTable: React.FC = () => {
   const navigate = useNavigate();
 
   const [exerciseId, setExerciseId] = useState<string>('');
+  const [exerciseTitle, setExerciseTitle] = useState<string>('');
   const [openModal, setOpenModal] = useState<boolean>(false);
 
-  const handleOpen = (id: string) => {
+  const handleOpen = (id: string, title: string) => {
     setExerciseId(id);
+    setExerciseTitle(title);
     setOpenModal(true);
   };
 
   const handleClose = () => {
     setExerciseId('');
+    setExerciseTitle('')
     setOpenModal(false)
   };
 
@@ -42,7 +46,7 @@ const ExerciseDataTable: React.FC = () => {
             <IconButton onClick={() => navigate(`/exercises/${params.id}`)}>
               <Edit fontSize='small' />
             </IconButton>
-            <IconButton onClick={() => handleOpen(String(params.id))}>
+            <IconButton onClick={() => handleOpen(String(params.id), params.row.title)}>
               <Delete fontSize='small' />
             </IconButton>
           </>
@@ -53,11 +57,12 @@ const ExerciseDataTable: React.FC = () => {
 
   return (
     <>
-      <DataTable rows={exerciseContext.exercises} columns={columns} type={'exercises'} />
+      <DataTable rows={exerciseContext.exercises} columns={columns} type={DataType.EXERCISE} />
       { openModal &&
         <DeleteModal
           id={exerciseId}
-          type={'exercises'}
+          name={exerciseTitle}
+          type={DataType.EXERCISE}
           updateContext={handleRemoveUser}
           handleClose={handleClose}
         />

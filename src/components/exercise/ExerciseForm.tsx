@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, Box, Button, Container, createTheme, CssBaseline, FormControl, Grid, MenuItem, TextField, ThemeProvider, Typography } from '@mui/material';
 import { KeyboardBackspace, PeopleRounded } from '@mui/icons-material';
@@ -21,15 +20,12 @@ const ExerciseForm = ({ id, exercise, handleSetExercise }: ExerciseFormProps) =>
 
   const navigate = useNavigate();
 
-  const [currentError, setCurrentError] = useState<String>('');
-
   const handleUpdateExercise = (exercise: Exercise) => {
     updateExercise(id, exercise)
       .then((response) => response.data)
       .then((data) => {
         const exerciseData = parseExercise(data);
         handleSetExercise(exerciseData);
-        setCurrentError('');
         feedbackContext.setFeedback({
           message: 'Exercise Updated!',
           open: true,
@@ -37,8 +33,19 @@ const ExerciseForm = ({ id, exercise, handleSetExercise }: ExerciseFormProps) =>
         });
       })
       .catch((error: any) => {
-        console.error(error.response.data);
-        setCurrentError(error.response.data);
+        if (typeof error === 'object') {
+          feedbackContext.setFeedback({
+            message: error.response.data ?? error.message, 
+            error: true,
+            open: true,
+          });
+        } else {
+          feedbackContext.setFeedback({
+            message: error, 
+            error: true,
+            open: true,
+          });
+        }
       });
   };
 
@@ -123,10 +130,6 @@ const ExerciseForm = ({ id, exercise, handleSetExercise }: ExerciseFormProps) =>
               </Button>
             </Box>
           </FormControl>
-
-          <Typography color='red' variant='h6'>
-            {currentError}
-          </Typography>
         </Box>
       </Container>
     </ThemeProvider>

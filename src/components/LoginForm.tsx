@@ -3,15 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { Avatar, Box, Button, Container, createTheme, CssBaseline, TextField, ThemeProvider, Typography } from '@mui/material';
 import { LockOutlined } from '@mui/icons-material';
 import { login, setTokenStorage } from '../api/auth.api';
+import { useFeedbackContext } from '../context/feedback.context';
 import { useSessionContext } from '../context/session.context';
 
 const LoginForm: React.FC = () => {
 
   const theme = createTheme();
   const sessionContext = useSessionContext();
+  const feedbackContext = useFeedbackContext();
   const navigate = useNavigate();
-
-  const [currentError, setCurrentError] = React.useState<string>('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -28,8 +28,19 @@ const LoginForm: React.FC = () => {
         navigate('/');
       })
       .catch((error: any) => {
-        console.error(error.response.data);
-        setCurrentError(error.response.data);
+        if (typeof error === 'object') {
+          feedbackContext.setFeedback({
+            message: error.response.data ?? error.message, 
+            error: true,
+            open: true,
+          });
+        } else {
+          feedbackContext.setFeedback({
+            message: error, 
+            error: true,
+            open: true,
+          });
+        }
       });
   };
 
@@ -71,10 +82,6 @@ const LoginForm: React.FC = () => {
               Log In
             </Button>
           </Box>
-
-          <Typography color='red' variant='h6'>
-            {currentError}
-          </Typography>
         </Box>
       </Container>
     </ThemeProvider>

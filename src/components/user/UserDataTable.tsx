@@ -6,6 +6,7 @@ import { GridColDef } from '@mui/x-data-grid';
 import { useUserContext } from '../../context/user.context';
 import DataTable from '../DataTable';
 import DeleteModal from '../DeleteModal';
+import { DataType } from '../../models/data.model';
 
 const UserDataTable: React.FC = () => {
 
@@ -13,15 +14,18 @@ const UserDataTable: React.FC = () => {
   const navigate = useNavigate();
 
   const [userId, setUserId] = useState<string>('');
+  const [userEmail, setUserEmail] = useState<string>('');
   const [openModal, setOpenModal] = useState<boolean>(false);
 
-  const handleOpen = (id: string) => {
+  const handleOpen = (id: string, email: string) => {
     setUserId(id);
+    setUserEmail(email);
     setOpenModal(true);
   };
 
   const handleClose = () => {
     setUserId('');
+    setUserEmail('');
     setOpenModal(false)
   };
 
@@ -44,7 +48,7 @@ const UserDataTable: React.FC = () => {
             <IconButton onClick={() => navigate(`/users/${params.id}`)}>
               <Edit fontSize='small' />
             </IconButton>
-            <IconButton onClick={() => handleOpen(String(params.id))}>
+            <IconButton onClick={() => handleOpen(String(params.id), params.row.email)}>
               <Delete fontSize='small' />
             </IconButton>
           </>
@@ -55,11 +59,12 @@ const UserDataTable: React.FC = () => {
 
   return (
     <>
-      <DataTable rows={userContext.users} columns={columns} type={'users'} />
+      <DataTable rows={userContext.users} columns={columns} type={DataType.USER} />
       { openModal &&
         <DeleteModal
           id={userId}
-          type={'users'}
+          name={userEmail}
+          type={DataType.USER}
           updateContext={handleRemoveUser}
           handleClose={handleClose}
         />

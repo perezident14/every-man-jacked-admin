@@ -1,8 +1,8 @@
 import { Dialog, DialogContent, DialogTitle, Box, Button } from '@mui/material';
 import axios, { AxiosRequestConfig } from 'axios';
-// import { DataTypeEnum } from '../../models/Data';
-import { useFeedbackContext } from '../context/feedback.context';
 import { isTokenExpired, refresh } from '../api/auth.api';
+import { useFeedbackContext } from '../context/feedback.context';
+import { DataType } from '../models/data.model';
 import { capitalize } from '../utils/helpers';
 
 const setupConfig = async (method: string, url: string): Promise<AxiosRequestConfig> => {
@@ -25,12 +25,13 @@ const setupConfig = async (method: string, url: string): Promise<AxiosRequestCon
 
 interface DeleteModalProps {
   id: string
-  type: string
+  name: string
+  type: DataType
   updateContext: (id: string) => void
   handleClose: () => void;
 }
 
-const DeleteModal = ({ id, type, updateContext, handleClose }: DeleteModalProps) => {
+const DeleteModal = ({ id, name, type, updateContext, handleClose }: DeleteModalProps) => {
 
   const feedbackContext = useFeedbackContext();
 
@@ -66,7 +67,7 @@ const DeleteModal = ({ id, type, updateContext, handleClose }: DeleteModalProps)
 
   return (
     <Dialog onClose={handleClose} open={true}>
-      <DialogTitle>Do you want to delete this {type.slice(0, -1)}?</DialogTitle>
+      <DialogTitle>Do you want to delete {name}?</DialogTitle>
       <DialogContent>
         <Box display='flex' flexGrow={1} justifyContent='center'>
           <Button variant='contained' onClick={handleClose}>Cancel</Button>

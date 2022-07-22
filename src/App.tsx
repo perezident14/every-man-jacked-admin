@@ -8,6 +8,7 @@ import ExerciseFormCreate from './components/exercise/ExerciseFormCreate';
 import FeedbackAlert from './components/FeedbackAlert';
 import LoginForm from './components/LoginForm';
 import Navbar from './components/Navbar';
+import PageNotFound from './components/PageNotFound';
 import UserDashboard from './components/user/UserDashboard';
 import UserEditor from './components/user/UserEditor';
 import UserFormCreate from './components/user/UserFormCreate';
@@ -37,7 +38,7 @@ const App: React.FC = () => {
                   <Route path='/exercises' element={<ExerciseDashboard />} />
                   <Route path='/exercises/new' element={<ExerciseFormCreate />} />
                   <Route path='/exercises/:id' element={<ExerciseEditor />} />
-                  <Route path='*' element={<p>Yooooooo</p>} />
+                  <Route path='*' element={<PageNotFound />} />
                 </Route>
               </Routes>
               <FeedbackAlert />

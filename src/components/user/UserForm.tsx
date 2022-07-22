@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, Box, Button, Container, createTheme, CssBaseline, FormControl, Grid, MenuItem, TextField, ThemeProvider, Typography } from '@mui/material';
 import { KeyboardBackspace, PeopleRounded } from '@mui/icons-material';
@@ -21,15 +20,12 @@ const UserForm = ({ id, user, handleSetUser }: UserFormProps) => {
 
   const navigate = useNavigate();
 
-  const [currentError, setCurrentError] = useState<String>('');
-
   const handleUpdateUser = (user: User) => {
     updateUser(id, user)
       .then((response) => response.data)
       .then((data) => {
         const userData = parseUser(data);
         handleSetUser(userData);
-        setCurrentError('');
         feedbackContext.setFeedback({
           message: 'User Updated!',
           open: true,
@@ -37,8 +33,19 @@ const UserForm = ({ id, user, handleSetUser }: UserFormProps) => {
         });
       })
       .catch((error: any) => {
-        console.error(error.response.data);
-        setCurrentError(error.response.data);
+        if (typeof error === 'object') {
+          feedbackContext.setFeedback({
+            message: error.response.data ?? error.message, 
+            error: true,
+            open: true,
+          });
+        } else {
+          feedbackContext.setFeedback({
+            message: error, 
+            error: true,
+            open: true,
+          });
+        }
       });
   };
 
@@ -140,10 +147,6 @@ const UserForm = ({ id, user, handleSetUser }: UserFormProps) => {
               </Button>
             </Box>
           </FormControl>
-
-          <Typography color='red' variant='h6'>
-            {currentError}
-          </Typography>
         </Box>
       </Container>
     </ThemeProvider>

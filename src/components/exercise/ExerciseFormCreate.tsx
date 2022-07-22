@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, Box, Button, Container, createTheme, CssBaseline, FormControl, Grid, MenuItem, TextField, ThemeProvider, Typography } from '@mui/material';
 import { KeyboardBackspace, PeopleRounded } from '@mui/icons-material';
@@ -17,8 +17,6 @@ const ExerciseFormCreate: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const [currentError, setCurrentError] = useState<String>('');
-
   const handleSetExercise = (newExercise: Exercise) => {
     const updatedExercises = [...exerciseContext.exercises];
     updatedExercises.push(newExercise);
@@ -31,7 +29,6 @@ const ExerciseFormCreate: React.FC = () => {
       .then((data) => {
         const exerciseData = parseExercise(data);
         handleSetExercise(exerciseData);
-        setCurrentError('');
         feedbackContext.setFeedback({
           message: 'Exercise Created!',
           open: true,
@@ -40,8 +37,19 @@ const ExerciseFormCreate: React.FC = () => {
         navigate(`/exercises/${exerciseData._id}`);
       })
       .catch((error: any) => {
-        console.error(error.response.data);
-        setCurrentError(error.response.data);
+        if (typeof error === 'object') {
+          feedbackContext.setFeedback({
+            message: error.response.data ?? error.message, 
+            error: true,
+            open: true,
+          });
+        } else {
+          feedbackContext.setFeedback({
+            message: error, 
+            error: true,
+            open: true,
+          });
+        }
       });
   };
 
@@ -123,10 +131,6 @@ const ExerciseFormCreate: React.FC = () => {
               </Button>
             </Box>
           </FormControl>
-
-          <Typography color='red' variant='h6'>
-            {currentError}
-          </Typography>
         </Box>
       </Container>
     </ThemeProvider>

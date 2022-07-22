@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Box, Container, createTheme, CssBaseline, LinearProgress, ThemeProvider, Typography } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Box, Container, createTheme, CssBaseline, LinearProgress, ThemeProvider } from '@mui/material';
 import { useExerciseContext } from '../../context/exercise.context';
+import { useFeedbackContext } from '../../context/feedback.context';
 import { Exercise } from '../../models/exercise.model';
 import { initialExerciseData } from './exercise.service';
 import ExerciseForm from './ExerciseForm';
@@ -10,10 +11,12 @@ const ExerciseEditor: React.FC = () => {
 
   const { id } = useParams();
   const exerciseContext = useExerciseContext();
+  const feedbackContext = useFeedbackContext();
   const theme = createTheme();
 
+  const navigate = useNavigate();
+
   const [exercise, setExercise] = useState<Exercise>(initialExerciseData);
-  const [currentError, setCurrentError] = useState<String>('');
   const [loading, setLoading] = useState<Boolean>(true);
 
   const handleSetExercise = (updatedExercise: Exercise) => {
@@ -29,11 +32,15 @@ const ExerciseEditor: React.FC = () => {
       const exerciseData = exerciseContext.exercises.find((exercise) => exercise._id === id);
       if (exerciseData) {
         setExercise(exerciseData);
-        setCurrentError('');
         setLoading(false);
       } else {
-        setCurrentError('Exercise Not Found');
+        feedbackContext.setFeedback({
+          message: 'Exercise Not Found', 
+          error: true,
+          open: true,
+        });
         setLoading(false);
+        navigate('/exercises');
       }
     }
   }, [exerciseContext]);
@@ -50,19 +57,7 @@ const ExerciseEditor: React.FC = () => {
           </Container>
         </ThemeProvider>
       }
-      { currentError &&
-        <ThemeProvider theme={theme}>
-          <Container component='main' maxWidth='md'>
-            <CssBaseline />
-            <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column', marginTop: 8 }}>
-              <Typography color='red' variant='h6'>
-                {currentError}
-              </Typography>
-            </Box>
-          </Container>
-        </ThemeProvider>
-      }
-      { id && !loading && !currentError &&
+      { id && !loading &&
         <ExerciseForm id={id} exercise={exercise} handleSetExercise={handleSetExercise} />
       }
     </>

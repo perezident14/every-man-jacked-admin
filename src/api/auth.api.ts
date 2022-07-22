@@ -36,16 +36,6 @@ export const clearTokenStorage = (): void => {
   localStorage.removeItem('RefreshToken');
 };
 
-// NEEDED?
-export const register = (data: any): Promise<AxiosResponse> => {
-  const config = setupConfig('POST', '/account/register', data);
-  return axios.request(config);
-
-
-  // setTokenStorage(data);
-  // return data;
-};
-
 export const login = (email: string, password: string): Promise<AxiosResponse> => {
   const config = setupConfig('POST', '/account/admin/login', { email, password });
   return axios.request(config);
