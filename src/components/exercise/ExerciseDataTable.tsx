@@ -3,45 +3,43 @@ import { useNavigate } from 'react-router-dom';
 import { Delete, Edit } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
-import { useUserContext } from '../../context/user.context';
+import { useExerciseContext } from '../../context/exercise.context';
 import DataTable from '../DataTable';
 import DeleteModal from '../DeleteModal';
 
-const UserDataTable: React.FC = () => {
+const ExerciseDataTable: React.FC = () => {
 
-  const userContext = useUserContext();
+  const exerciseContext = useExerciseContext();
   const navigate = useNavigate();
 
-  const [userId, setUserId] = useState<string>('');
+  const [exerciseId, setExerciseId] = useState<string>('');
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   const handleOpen = (id: string) => {
-    setUserId(id);
+    setExerciseId(id);
     setOpenModal(true);
   };
 
   const handleClose = () => {
-    setUserId('');
+    setExerciseId('');
     setOpenModal(false)
   };
 
   const handleRemoveUser = (id: string) => {
-    const index = userContext.users.findIndex((user) => user._id === id);
-    const updatedUsers = [...userContext.users];
-    updatedUsers.splice(index, 1);
-    userContext.setUsers(updatedUsers);
+    const index = exerciseContext.exercises.findIndex((exercise) => exercise._id === id);
+    const updatedExercises = [...exerciseContext.exercises];
+    updatedExercises.splice(index, 1);
+    exerciseContext.setExercises(updatedExercises);
   };
 
   const columns: GridColDef[] = [
-    { field: 'firstName', headerName: 'First Name', width: 200 },
-    { field: 'lastName', headerName: 'Last Name', width: 200 },
-    { field: 'email', headerName: 'Email', minWidth: 300, flex: 1 },
-    { field: 'role', headerName: 'Role', width: 100 },
+    { field: 'title', headerName: 'Title', minWidth: 300, flex: 1 },
+    { field: 'categories', headerName: 'Categories', width: 300 },
     { field: 'actions', headerName: 'Actions', align: 'center', width: 100, sortable: false,
       renderCell: (params) => {
         return (
           <>
-            <IconButton onClick={() => navigate(`/users/${params.id}`)}>
+            <IconButton onClick={() => navigate(`/exercises/${params.id}`)}>
               <Edit fontSize='small' />
             </IconButton>
             <IconButton onClick={() => handleOpen(String(params.id))}>
@@ -55,11 +53,11 @@ const UserDataTable: React.FC = () => {
 
   return (
     <>
-      <DataTable rows={userContext.users} columns={columns} type={'users'} />
+      <DataTable rows={exerciseContext.exercises} columns={columns} type={'exercises'} />
       { openModal &&
         <DeleteModal
-          id={userId}
-          type={'users'}
+          id={exerciseId}
+          type={'exercises'}
           updateContext={handleRemoveUser}
           handleClose={handleClose}
         />
@@ -68,4 +66,4 @@ const UserDataTable: React.FC = () => {
   );
 };
 
-export default UserDataTable;
+export default ExerciseDataTable;

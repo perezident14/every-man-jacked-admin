@@ -12,6 +12,7 @@ export enum ExerciseCategory {
 }
 
 export interface Exercise {
+  ['_id']?: string
   title: string
   categories: ExerciseCategory[]
 }

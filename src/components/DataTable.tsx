@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Button, MenuItem, TextField } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
 interface DataTableProps {
   rows: any[]
   columns: GridColDef[]
+  type: string
 }
 
-const DataTable = ({ rows, columns }: DataTableProps) => {
+const DataTable = ({ rows, columns, type }: DataTableProps) => {
+
+  const navigate = useNavigate();
 
   const [pageSize, setPageSize] = useState<number>(5);
   const [searchField, setSearchField] = useState<string>(columns[0].field);
@@ -18,7 +22,12 @@ const DataTable = ({ rows, columns }: DataTableProps) => {
     if (!search) {
       setFilteredRows(rows);
     } else {
-      const filtered = rows.filter(row => row[searchField].toLowerCase().startsWith(search.toLowerCase()));
+      const filtered = rows.filter((row) => {
+        if (Array.isArray(row[searchField])) {
+          return row[searchField].some((option: string) => option.toLowerCase().startsWith(search.toLowerCase()));
+        }
+        return row[searchField].toLowerCase().startsWith(search.toLowerCase());
+      });
       setFilteredRows(filtered);
     }
   }, [search, searchField]);
@@ -45,7 +54,7 @@ const DataTable = ({ rows, columns }: DataTableProps) => {
           value={searchField}
           onChange={(e) => setSearchField(e.target.value)}
         >
-          {columns.map((column) => {
+          {columns.filter((column) => column.field !== 'actions').map((column) => {
             return (
               <MenuItem key={column.field} value={column.field}>
                 {column.headerName}
@@ -55,7 +64,7 @@ const DataTable = ({ rows, columns }: DataTableProps) => {
         </TextField>
         &nbsp;
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '15%' }}>
-          <Button variant='contained'>
+          <Button variant='contained' onClick={() => navigate(`/${type}/new`)}>
             New Entry
           </Button>
         </Box>

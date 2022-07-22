@@ -26,15 +26,20 @@ export const updateUser = async (id: string, user: User): Promise<AxiosResponse>
   return axios.request(config);
 };
 
+export const createUser = async (user: User): Promise<AxiosResponse> => {
+  const config = await setupConfig('POST', '/users', user);
+  return axios.request(config);
+};
+
 export const initialUserData: User = {
   firstName: '',
   lastName: '',
   email: '',
+  password: '',
   role: UserRole.USER,
   workouts: [] as string[],
 };
 
-// Still needed?
 export const parseUser = (data: User): User => {
   return {
     '_id': data._id,
