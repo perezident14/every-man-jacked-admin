@@ -8,10 +8,10 @@ This application is built using TypeScript and React for a quick and concise exp
 
 ### Upcoming Features
 
-- [ ] UI / UX redesign
+- [x] UI / UX redesign
 - [x] User authentication
-- [ ] User role changes
-- [ ] CRUD Exercise
+- [x] User role changes
+- [x] CRUD Exercise
 - [ ] User messenger
 - [ ] Coaching role / support
 - [ ] Multi-language Support
