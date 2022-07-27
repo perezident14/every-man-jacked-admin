@@ -1,6 +1,6 @@
 import React from 'react';
-import { Avatar, Box, Container, createTheme, CssBaseline, ThemeProvider, Typography } from '@mui/material';
 import { PeopleRounded } from '@mui/icons-material';
+import { Avatar, Box, Container, createTheme, CssBaseline, ThemeProvider, Typography } from '@mui/material';
 import UserDataTable from './UserDataTable';
 
 const UserDashboard: React.FC = () => {

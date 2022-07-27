@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Avatar, Box, Button, Container, createTheme, CssBaseline, FormControl, Grid, MenuItem, TextField, ThemeProvider, Typography } from '@mui/material';
 import { KeyboardBackspace, PeopleRounded } from '@mui/icons-material';
+import { Avatar, Box, Button, Container, createTheme, CssBaseline, FormControl, Grid, MenuItem, TextField, ThemeProvider, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useFeedbackContext } from '../../context/feedback.context';
@@ -36,7 +36,7 @@ const UserFormCreate: React.FC = () => {
         });
         navigate(`/users/${userData._id}`);
       })
-      .catch((error: any) => {
+      .catch((error) => {
         if (typeof error === 'object') {
           feedbackContext.setFeedback({
             message: error.response.data ?? error.message, 
@@ -64,8 +64,8 @@ const UserFormCreate: React.FC = () => {
   const formik = useFormik({
     initialValues: initialUserData,
     validationSchema,
-    onSubmit: (values) => {
-      handleCreateUser(values as User);
+    onSubmit: (values: User) => {
+      handleCreateUser(values);
     }
   });
 
@@ -89,7 +89,6 @@ const UserFormCreate: React.FC = () => {
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    required
                     fullWidth
                     value={formik.values.firstName}
                     onChange={formik.handleChange}
@@ -102,7 +101,6 @@ const UserFormCreate: React.FC = () => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    required
                     fullWidth
                     value={formik.values.lastName}
                     onChange={formik.handleChange}
@@ -114,7 +112,6 @@ const UserFormCreate: React.FC = () => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    required
                     fullWidth
                     value={formik.values.email}
                     onChange={formik.handleChange}
@@ -127,7 +124,6 @@ const UserFormCreate: React.FC = () => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    required
                     fullWidth
                     value={formik.values.password}
                     onChange={formik.handleChange}

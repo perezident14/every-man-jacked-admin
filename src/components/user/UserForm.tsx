@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { Avatar, Box, Button, Container, createTheme, CssBaseline, FormControl, Grid, MenuItem, TextField, ThemeProvider, Typography } from '@mui/material';
 import { KeyboardBackspace, PeopleRounded } from '@mui/icons-material';
+import { Avatar, Box, Button, Container, createTheme, CssBaseline, FormControl, Grid, MenuItem, TextField, ThemeProvider, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useFeedbackContext } from '../../context/feedback.context';
@@ -32,7 +32,7 @@ const UserForm = ({ id, user, handleSetUser }: UserFormProps) => {
           type: 0
         });
       })
-      .catch((error: any) => {
+      .catch((error) => {
         if (typeof error === 'object') {
           feedbackContext.setFeedback({
             message: error.response.data ?? error.message, 
@@ -64,8 +64,8 @@ const UserForm = ({ id, user, handleSetUser }: UserFormProps) => {
       role: user.role,
     },
     validationSchema,
-    onSubmit: (values) => {
-      handleUpdateUser(values as User);
+    onSubmit: (values: User) => {
+      handleUpdateUser(values);
     }
   });
 
@@ -89,7 +89,6 @@ const UserForm = ({ id, user, handleSetUser }: UserFormProps) => {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    required
                     fullWidth
                     value={formik.values.firstName}
                     onChange={formik.handleChange}
@@ -102,7 +101,6 @@ const UserForm = ({ id, user, handleSetUser }: UserFormProps) => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    required
                     fullWidth
                     value={formik.values.lastName}
                     onChange={formik.handleChange}
@@ -114,7 +112,6 @@ const UserForm = ({ id, user, handleSetUser }: UserFormProps) => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    required
                     fullWidth
                     value={formik.values.email}
                     onChange={formik.handleChange}

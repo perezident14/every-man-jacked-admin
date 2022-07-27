@@ -21,7 +21,7 @@ export function ExerciseProvider({ children }: { children: any }) {
     fetchExercises()
       .then((response) => response.data)
       .then((data) => setExercises(data))
-      .catch((error: any) => console.error(error.response.data));
+      .catch((error) => console.error(error.response.data));
   };
 
   useEffect(() => {

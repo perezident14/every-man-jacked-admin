@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FitnessCenterRounded, KeyboardBackspace } from '@mui/icons-material';
 import { Avatar, Box, Button, Container, createTheme, CssBaseline, FormControl, Grid, MenuItem, TextField, ThemeProvider, Typography } from '@mui/material';
-import { KeyboardBackspace, PeopleRounded } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useFeedbackContext } from '../../context/feedback.context';
@@ -36,7 +36,7 @@ const ExerciseFormCreate: React.FC = () => {
         });
         navigate(`/exercises/${exerciseData._id}`);
       })
-      .catch((error: any) => {
+      .catch((error) => {
         if (typeof error === 'object') {
           feedbackContext.setFeedback({
             message: error.response.data ?? error.message, 
@@ -61,8 +61,8 @@ const ExerciseFormCreate: React.FC = () => {
   const formik = useFormik({
     initialValues: initialExerciseData,
     validationSchema,
-    onSubmit: (values) => {
-      handleCreateExercise(values as Exercise);
+    onSubmit: (values: Exercise) => {
+      handleCreateExercise(values);
     }
   });
 
@@ -75,7 +75,7 @@ const ExerciseFormCreate: React.FC = () => {
         </Box>
         <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column', marginTop: 8 }}>
           <Avatar sx={{ margin: 1, backgroundColor: 'secondary' }}>
-            <PeopleRounded />
+            <FitnessCenterRounded />
           </Avatar>
           <Typography component='h1' variant='h5'>
             Create Exercise
@@ -86,7 +86,6 @@ const ExerciseFormCreate: React.FC = () => {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    required
                     fullWidth
                     value={formik.values.title}
                     onChange={formik.handleChange}

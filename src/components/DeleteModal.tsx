@@ -47,7 +47,7 @@ const DeleteModal = ({ id, name, type, updateContext, handleClose }: DeleteModal
         });
         handleClose();
       })
-      .catch((error: any) => {
+      .catch((error) => {
         console.error(error);
         if (typeof error === 'object') {
           feedbackContext.setFeedback({

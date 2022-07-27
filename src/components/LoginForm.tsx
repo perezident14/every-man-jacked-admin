@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Avatar, Box, Button, Container, createTheme, CssBaseline, TextField, ThemeProvider, Typography } from '@mui/material';
 import { LockOutlined } from '@mui/icons-material';
+import { Avatar, Box, Button, Container, createTheme, CssBaseline, FormControl, Grid, TextField, ThemeProvider, Typography } from '@mui/material';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import { login, setTokenStorage } from '../api/auth.api';
 import { useFeedbackContext } from '../context/feedback.context';
 import { useSessionContext } from '../context/session.context';
+import { LoginData } from '../models/auth.model';
 
 const LoginForm: React.FC = () => {
 
@@ -13,21 +16,15 @@ const LoginForm: React.FC = () => {
   const feedbackContext = useFeedbackContext();
   const navigate = useNavigate();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const formData = new FormData(event.currentTarget);
-    const userEmail = String(formData.get('email'));
-    const userPassword = String(formData.get('password'));
-
-    login(userEmail, userPassword)
+  const handleLogin = (email: string, password: string) => {
+    login(email, password)
       .then((response) => response.data)
       .then((data) => {
         setTokenStorage(data);
         sessionContext.setSession(true, data.user);
         navigate('/');
       })
-      .catch((error: any) => {
+      .catch((error) => {
         if (typeof error === 'object') {
           feedbackContext.setFeedback({
             message: error.response.data ?? error.message, 
@@ -43,6 +40,22 @@ const LoginForm: React.FC = () => {
         }
       });
   };
+
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().email('Invalid email address').required(),
+    password: Yup.string().required(),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validationSchema,
+    onSubmit: (values: LoginData) => {
+      handleLogin(values.email, values.password);
+    }
+  });
 
   useEffect(() => {
     if (sessionContext.isLoggedIn) {
@@ -62,26 +75,41 @@ const LoginForm: React.FC = () => {
             Admin Login
           </Typography>
 
-          <Box component='form' onSubmit={handleSubmit} sx={{ marginTop: 1 }}>
-            <TextField
-              fullWidth
-              margin='normal'
-              label='Email'
-              name='email'
-              type='email'
-              autoFocus
-            />
-            <TextField
-              fullWidth
-              margin='normal'
-              label='Password'
-              name='password'
-              type='password'
-            />
-            <Button fullWidth type='submit' variant='contained' sx={{ marginBottom: 2, marginTop: 2 }}>
-              Log In
-            </Button>
-          </Box>
+          <Container component='main' maxWidth='sm'>
+            <FormControl fullWidth>
+              <Box component='form' onSubmit={formik.handleSubmit} sx={{ marginTop: 3 }}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                      error={formik.touched.email && Boolean(formik.errors.email)}
+                      helperText={formik.touched.email && formik.errors.email}
+                      name='email'
+                      label='Email'
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      value={formik.values.password}
+                      onChange={formik.handleChange}
+                      error={formik.touched.password && Boolean(formik.errors.password)}
+                      helperText={formik.touched.password && formik.errors.password}
+                      name='password'
+                      label='Password'
+                      type='password'
+                    />
+                  </Grid>
+                </Grid>
+
+                <Button fullWidth type='submit' variant='contained' sx={{ marginBottom: 2, marginTop: 2 }}>
+                  Log In
+                </Button>
+              </Box>
+            </FormControl>
+          </Container>
         </Box>
       </Container>
     </ThemeProvider>

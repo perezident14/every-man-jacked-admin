@@ -21,7 +21,7 @@ export function UserProvider({ children }: { children: any }) {
     fetchUsers()
       .then((response) => response.data)
       .then((data) => setUsers(data))
-      .catch((error: any) => console.error(error.response.data));
+      .catch((error) => console.error(error.response.data));
   };
 
   useEffect(() => {

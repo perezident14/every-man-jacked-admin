@@ -1,6 +1,6 @@
 import React from 'react';
-import { Avatar, Box, Button, Container, createTheme, CssBaseline, ThemeProvider, Typography } from '@mui/material';
 import { PersonRounded } from '@mui/icons-material';
+import { Avatar, Box, Button, Container, createTheme, CssBaseline, ThemeProvider, Typography } from '@mui/material';
 import { logout } from '../api/auth.api';
 import { useSessionContext } from '../context/session.context';
 

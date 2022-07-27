@@ -1,6 +1,6 @@
 import React from 'react';
-import { Avatar, Box, Container, createTheme, CssBaseline, ThemeProvider, Typography } from '@mui/material';
 import { FitnessCenterRounded } from '@mui/icons-material';
+import { Avatar, Box, Container, createTheme, CssBaseline, ThemeProvider, Typography } from '@mui/material';
 import ExerciseDataTable from './ExerciseDataTable';
 
 const ExerciseDashboard: React.FC = () => {
