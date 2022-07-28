@@ -73,9 +73,11 @@ const UserFormCreate: React.FC = () => {
     <ThemeProvider theme={theme}>
       <Container component='main' maxWidth='md'>
         <CssBaseline />
-        <Box onClick={() => navigate('/users')} sx={{ cursor: 'pointer', display: 'flex', position: 'absolute', marginTop: -4 }}>
-          <KeyboardBackspace sx={{ marginRight: 0.5 }} /> Back to Users
-        </Box>
+        <Button onClick={() => navigate('/users')} sx={{ display: 'flex', position: 'absolute', marginTop: -4 }}>
+          <KeyboardBackspace />
+          &nbsp;
+          Back to Users
+        </Button>
         <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column', marginTop: 8 }}>
           <Avatar sx={{ margin: 1, backgroundColor: 'secondary' }}>
             <PeopleRounded />
