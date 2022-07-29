@@ -29,7 +29,7 @@ const ExerciseDataTable: React.FC = () => {
     setOpenModal(false)
   };
 
-  const handleRemoveUser = (id: string) => {
+  const handleRemoveExercise = (id: string) => {
     const index = exerciseContext.exercises.findIndex((exercise) => exercise._id === id);
     const updatedExercises = [...exerciseContext.exercises];
     updatedExercises.splice(index, 1);
@@ -63,7 +63,7 @@ const ExerciseDataTable: React.FC = () => {
           id={exerciseId}
           name={exerciseTitle}
           type={DataType.EXERCISE}
-          updateContext={handleRemoveUser}
+          updateContext={handleRemoveExercise}
           handleClose={handleClose}
         />
       }
