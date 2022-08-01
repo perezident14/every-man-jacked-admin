@@ -27,11 +27,11 @@ const App: React.FC = () => {
               <Navbar />
               <Routes>
                 {/* Public Routes */}
-                <Route path='/login' element={<LoginForm />} />
+                <Route path='/' element={<LoginForm />} />
 
                 {/* Private Routes */}
                 <Route element={<RequireAuth />}>
-                  <Route path='/' element={<Dashboard />} />
+                  <Route path='/dashboard' element={<Dashboard />} />
                   <Route path='/users' element={<UserDashboard />} />
                   <Route path='/users/new' element={<UserFormCreate />} />
                   <Route path='/users/:id' element={<UserEditor />} />
