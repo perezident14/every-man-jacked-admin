@@ -1,25 +1,6 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { isTokenExpired, refresh } from '../../api/auth.api';
-import { Exercise, ExerciseCategory } from '../../models/exercise.model';
-
-export const setupConfig = async (method: string, url: string, data?: Exercise): Promise<AxiosRequestConfig> => {
-  let accessToken = String(localStorage.getItem('AccessToken'));
-  if (isTokenExpired(accessToken)) {
-    accessToken = await refresh();
-  }
-
-  return {
-    method,
-    url: process.env.REACT_APP_API_URL + url,
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Credentials': 'true',
-      'Access-Control-Allow-Origin': '*',
-      'Authorization': accessToken,
-    },
-    data,
-  }
-};
+import axios, { AxiosResponse } from 'axios';
+import { Exercise } from '../../models/exercise.model';
+import { setupConfig } from '../../utils/helpers';
 
 export const updateExercise = async (id: string, exercise: Exercise): Promise<AxiosResponse> => {
   const config = await setupConfig('PUT', `/exercises/${id}`, exercise);
@@ -33,7 +14,7 @@ export const createExercise = async (exercise: Exercise): Promise<AxiosResponse>
 
 export const initialExerciseData: Exercise = {
   title: '',
-  categories: [] as ExerciseCategory[],
+  categories: [],
 };
 
 export const parseExercise = (data: Exercise): Exercise => {
@@ -41,5 +22,5 @@ export const parseExercise = (data: Exercise): Exercise => {
     '_id': data._id,
     title: data.title,
     categories: data.categories,
-  } as Exercise;
+  };
 };

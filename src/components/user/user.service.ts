@@ -1,25 +1,6 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { isTokenExpired, refresh } from '../../api/auth.api';
+import axios, { AxiosResponse } from 'axios';
 import { User, UserRole } from '../../models/user.model';
-
-export const setupConfig = async (method: string, url: string, data?: User): Promise<AxiosRequestConfig> => {
-  let accessToken = String(localStorage.getItem('AccessToken'));
-  if (isTokenExpired(accessToken)) {
-    accessToken = await refresh();
-  }
-
-  return {
-    method,
-    url: process.env.REACT_APP_API_URL + url,
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Credentials': 'true',
-      'Access-Control-Allow-Origin': '*',
-      'Authorization': accessToken,
-    },
-    data,
-  }
-};
+import { setupConfig } from '../../utils/helpers';
 
 export const updateUser = async (id: string, user: User): Promise<AxiosResponse> => {
   const config = await setupConfig('PUT', `/users/${id}`, user);
@@ -37,7 +18,7 @@ export const initialUserData: User = {
   email: '',
   password: '',
   role: UserRole.USER,
-  workouts: [] as string[],
+  workouts: [],
 };
 
 export const parseUser = (data: User): User => {
@@ -48,5 +29,5 @@ export const parseUser = (data: User): User => {
     email: data.email,
     role: data.role,
     workouts: data.workouts,
-  } as User;
+  };
 };

@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import jwt_decode from 'jwt-decode';
 import { TokenData } from '../models/auth.model';
 
-export const setupConfig = (method: string, url: string, data: any): AxiosRequestConfig => {
+export const setupAuthConfig = (method: string, url: string, data: any): AxiosRequestConfig => {
   return {
     method,
     url: process.env.REACT_APP_API_URL + url,
@@ -20,24 +20,13 @@ export const setTokenStorage = (result: TokenData): void => {
   localStorage.setItem('RefreshToken', result.AuthenticationResult.RefreshToken);
 };
 
-export const checkTokenStorage = (): boolean => {
-  const access = localStorage.getItem('AccessToken');
-  const refresh = localStorage.getItem('RefreshToken');
-
-  if (!access || !refresh) {
-    return false;
-  }
-
-  return true;
-};
-
 export const clearTokenStorage = (): void => {
   localStorage.removeItem('AccessToken');
   localStorage.removeItem('RefreshToken');
 };
 
 export const login = (email: string, password: string): Promise<AxiosResponse> => {
-  const config = setupConfig('POST', '/account/admin/login', { email, password });
+  const config = setupAuthConfig('POST', '/account/admin/login', { email, password });
   return axios.request(config);
 };
 
@@ -52,7 +41,7 @@ export const refresh = async (): Promise<string> => {
     throw new Error('No Refresh Token Found');
   }
 
-  const config = setupConfig('POST', '/account/refresh', { refreshToken });
+  const config = setupAuthConfig('POST', '/account/refresh', { refreshToken });
   return axios.request(config)
     .then((response) => response.data)
     .then((data => {

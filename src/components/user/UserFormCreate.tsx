@@ -37,19 +37,11 @@ const UserFormCreate: React.FC = () => {
         navigate(`/users/${userData._id}`);
       })
       .catch((error) => {
-        if (typeof error === 'object') {
-          feedbackContext.setFeedback({
-            message: error.response.data ?? error.message, 
-            error: true,
-            open: true,
-          });
-        } else {
-          feedbackContext.setFeedback({
-            message: error, 
-            error: true,
-            open: true,
-          });
-        }
+        feedbackContext.setFeedback({
+          message: error, 
+          error: true,
+          open: true,
+        });
       });
   };
 

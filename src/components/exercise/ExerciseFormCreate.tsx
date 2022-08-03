@@ -37,25 +37,21 @@ const ExerciseFormCreate: React.FC = () => {
         navigate(`/exercises/${exerciseData._id}`);
       })
       .catch((error) => {
-        if (typeof error === 'object') {
-          feedbackContext.setFeedback({
-            message: error.response.data ?? error.message, 
-            error: true,
-            open: true,
-          });
-        } else {
-          feedbackContext.setFeedback({
-            message: error, 
-            error: true,
-            open: true,
-          });
-        }
+        feedbackContext.setFeedback({
+          message: error, 
+          error: true,
+          open: true,
+        });
       });
   };
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required(),
-    categories: Yup.array(Yup.mixed<ExerciseCategory>().oneOf(Object.values(ExerciseCategory)).required()).required(),
+    categories: Yup.array(
+      Yup.mixed<ExerciseCategory>().oneOf(
+        Object.values(ExerciseCategory)
+      ).required()
+    ).min(1).required(),
   });
 
   const formik = useFormik({
