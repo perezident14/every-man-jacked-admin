@@ -6,17 +6,6 @@ This application is the admin panel where admin users can log in, moderate other
 
 This application is built using TypeScript and React for a quick and concise experience.
 
-### Upcoming Features
-
-- [x] UI / UX redesign
-- [x] User authentication
-- [x] User role changes
-- [x] CRUD Exercise
-- [ ] User messenger
-- [ ] Coaching role / support
-- [ ] Multi-language Support
-  - [ ] Spanish
-
 ## Available Scripts
 
 In the project directory, you can run:
@@ -24,7 +13,7 @@ In the project directory, you can run:
 ### `npm start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
