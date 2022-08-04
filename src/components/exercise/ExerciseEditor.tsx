@@ -3,8 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Container, createTheme, CssBaseline, LinearProgress, ThemeProvider } from '@mui/material';
 import { useExerciseContext } from '../../context/exercise.context';
 import { useFeedbackContext } from '../../context/feedback.context';
-import { Exercise } from '../../models/exercise.model';
-import { initialExerciseData } from './exercise.service';
+import { Exercise, initialExerciseData } from '../../models/exercise.model';
 import ExerciseForm from './ExerciseForm';
 
 const ExerciseEditor: React.FC = () => {

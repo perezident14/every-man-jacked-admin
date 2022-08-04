@@ -12,7 +12,13 @@ export enum ExerciseCategory {
 }
 
 export interface Exercise {
-  ['_id']?: string
+  _id: string
   title: string
   categories: ExerciseCategory[]
 }
+
+export const initialExerciseData: Exercise = {
+  _id: '',
+  title: '',
+  categories: [],
+};

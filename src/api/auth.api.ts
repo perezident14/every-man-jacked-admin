@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import jwt_decode from 'jwt-decode';
-import { TokenData } from '../models/auth.model';
+import { LoginData, TokenData } from '../models/auth.model';
 
 export const setupAuthConfig = (method: string, url: string, data: any): AxiosRequestConfig => {
   return {
@@ -25,8 +25,8 @@ export const clearTokenStorage = (): void => {
   localStorage.removeItem('RefreshToken');
 };
 
-export const login = (email: string, password: string): Promise<AxiosResponse> => {
-  const config = setupAuthConfig('POST', '/account/admin/login', { email, password });
+export const login = (loginData: LoginData): Promise<AxiosResponse> => {
+  const config = setupAuthConfig('POST', '/account/admin/login', loginData);
   return axios.request(config);
 };
 

@@ -12,14 +12,9 @@ export const createExercise = async (exercise: Exercise): Promise<AxiosResponse>
   return axios.request(config);
 };
 
-export const initialExerciseData: Exercise = {
-  title: '',
-  categories: [],
-};
-
 export const parseExercise = (data: Exercise): Exercise => {
   return {
-    '_id': data._id,
+    _id: data._id,
     title: data.title,
     categories: data.categories,
   };

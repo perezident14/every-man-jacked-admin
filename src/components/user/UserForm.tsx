@@ -17,11 +17,10 @@ const UserForm = ({ id, user, handleSetUser }: UserFormProps) => {
 
   const theme = createTheme();
   const feedbackContext = useFeedbackContext();
-
   const navigate = useNavigate();
 
-  const handleUpdateUser = (user: User) => {
-    updateUser(id, user)
+  const handleUpdateUser = (updatedUser: User) => {
+    updateUser(id, updatedUser)
       .then((response) => response.data)
       .then((data) => {
         const userData = parseUser(data);
@@ -49,16 +48,9 @@ const UserForm = ({ id, user, handleSetUser }: UserFormProps) => {
   });
 
   const formik = useFormik({
-    initialValues: {
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      role: user.role,
-    },
+    initialValues: user,
     validationSchema,
-    onSubmit: (values: User) => {
-      handleUpdateUser(values);
-    }
+    onSubmit: (values: User) => handleUpdateUser(values),
   });
 
   return (

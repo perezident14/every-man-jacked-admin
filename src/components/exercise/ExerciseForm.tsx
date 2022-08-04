@@ -17,7 +17,6 @@ const ExerciseForm = ({ id, exercise, handleSetExercise }: ExerciseFormProps) =>
 
   const theme = createTheme();
   const feedbackContext = useFeedbackContext();
-
   const navigate = useNavigate();
 
   const handleUpdateExercise = (exercise: Exercise) => {
@@ -51,14 +50,9 @@ const ExerciseForm = ({ id, exercise, handleSetExercise }: ExerciseFormProps) =>
   });
 
   const formik = useFormik({
-    initialValues: {
-      title: exercise.title,
-      categories: exercise.categories,
-    },
+    initialValues: exercise,
     validationSchema,
-    onSubmit: (values: Exercise) => {
-      handleUpdateExercise(values);
-    }
+    onSubmit: (values: Exercise) => handleUpdateExercise(values),
   });
 
   return (
