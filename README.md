@@ -8,7 +8,7 @@ This application is built using React, Typescript, and MaterialUI for a quick an
 
 ### Installing
 
-* Complete the [API](https://github.com/p14/emj-api) installation before starting the Admin installation process
+* Complete the [API](https://github.com/p14/every-man-jacked-api) installation before starting the Admin installation process
 * Create a user document in MongoDB with the `ADMIN` role
 * Run `npm install`
 * Create a `.env` file in the root directory with the following variables (substitute appropriate values):
