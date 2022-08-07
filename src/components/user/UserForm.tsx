@@ -29,12 +29,20 @@ const UserForm = ({ id, user, handleSetUser }: UserFormProps) => {
           type: 0
         });
       })
-      .catch((error) => {
-        feedbackContext.setFeedback({
-          message: error, 
-          error: true,
-          open: true,
-        });
+      .catch((error: any) => {
+        if (typeof error === 'object') {
+          feedbackContext.setFeedback({
+            message: error.response.data ?? error.message, 
+            error: true,
+            open: true,
+          });
+        } else {
+          feedbackContext.setFeedback({
+            message: error, 
+            error: true,
+            open: true,
+          });
+        }
       });
   };
 
