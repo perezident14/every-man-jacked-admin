@@ -40,7 +40,7 @@ const ExerciseDataTable: React.FC = () => {
   };
 
   const columns: GridColDef[] = [
-    { field: 'title', headerName: 'Title', minWidth: 300, flex: 1 },
+    { field: 'title', headerName: 'Title', minWidth: 200, flex: 1 },
     { field: 'categories', headerName: 'Categories', width: 300, hide: isSmallScreen ? true : false },
     { field: 'actions', headerName: 'Actions', align: 'center', width: 100, sortable: false,
       renderCell: (params) => {
