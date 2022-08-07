@@ -17,8 +17,18 @@ export interface Exercise {
   categories: ExerciseCategory[]
 }
 
-export const initialExerciseData: Exercise = {
+export interface NewExercise {
+  title: string
+  categories: ExerciseCategory[]
+}
+
+export const initialExerciseRender: Exercise = {
   _id: '',
+  title: '',
+  categories: [],
+};
+
+export const initialExerciseData: NewExercise = {
   title: '',
   categories: [],
 };

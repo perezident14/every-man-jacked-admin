@@ -5,7 +5,7 @@ import { Avatar, Box, Button, Container, createTheme, CssBaseline, FormControl, 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useFeedbackContext } from '../../context/feedback.context';
-import { initialUserData, User, UserRole } from '../../models/user.model';
+import { initialUserData, NewUser, User, UserRole } from '../../models/user.model';
 import { createUser, parseUser } from './user.service';
 import { useUserContext } from '../../context/user.context';
 
@@ -23,7 +23,7 @@ const UserFormCreate: React.FC = () => {
     userContext.setUsers(updatedUsers);
   };
 
-  const handleCreateUser = (user: User) => {
+  const handleCreateUser = (user: NewUser) => {
     createUser(user)
       .then((response) => response.data)
       .then((data) => {
@@ -56,7 +56,7 @@ const UserFormCreate: React.FC = () => {
   const formik = useFormik({
     initialValues: initialUserData,
     validationSchema,
-    onSubmit: (values: User) => handleCreateUser(values)
+    onSubmit: (values: NewUser) => handleCreateUser(values)
   });
 
   return (

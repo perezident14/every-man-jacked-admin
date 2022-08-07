@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { Exercise } from '../../models/exercise.model';
+import { Exercise, NewExercise } from '../../models/exercise.model';
 import { setupConfig } from '../../utils/helpers';
 
 export const updateExercise = async (id: string, exercise: Exercise): Promise<AxiosResponse> => {
@@ -7,7 +7,7 @@ export const updateExercise = async (id: string, exercise: Exercise): Promise<Ax
   return axios.request(config);
 };
 
-export const createExercise = async (exercise: Exercise): Promise<AxiosResponse> => {
+export const createExercise = async (exercise: NewExercise): Promise<AxiosResponse> => {
   const config = await setupConfig('POST', '/exercises', exercise);
   return axios.request(config);
 };

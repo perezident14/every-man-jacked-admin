@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Container, createTheme, CssBaseline, LinearProgress, ThemeProvider } from '@mui/material';
 import { useFeedbackContext } from '../../context/feedback.context';
 import { useUserContext } from '../../context/user.context';
-import { initialUserData, User } from '../../models/user.model';
+import { initialUserRender, User } from '../../models/user.model';
 import UserForm from './UserForm';
 
 const UserEditor: React.FC = () => {
@@ -15,7 +15,7 @@ const UserEditor: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const [user, setUser] = useState<User>(initialUserData);
+  const [user, setUser] = useState<User>(initialUserRender);
   const [loading, setLoading] = useState<Boolean>(true);
 
   const handleSetUser = (updatedUser: User) => {

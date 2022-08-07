@@ -13,8 +13,26 @@ export interface User {
   workouts: string[]
 }
 
-export const initialUserData: User = {
+export interface NewUser {
+  firstName: string
+  lastName: string
+  email: string
+  password?: string
+  role: UserRole
+  workouts: string[]
+}
+
+export const initialUserRender: User = {
   _id: '',
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  role: UserRole.USER,
+  workouts: [],
+};
+
+export const initialUserData: NewUser = {
   firstName: '',
   lastName: '',
   email: '',

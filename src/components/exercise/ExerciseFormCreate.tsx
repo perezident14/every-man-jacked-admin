@@ -5,7 +5,7 @@ import { Avatar, Box, Button, Container, createTheme, CssBaseline, FormControl, 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useFeedbackContext } from '../../context/feedback.context';
-import { Exercise, ExerciseCategory, initialExerciseData } from '../../models/exercise.model';
+import { Exercise, ExerciseCategory, initialExerciseData, NewExercise } from '../../models/exercise.model';
 import { createExercise, parseExercise } from './exercise.service';
 import { useExerciseContext } from '../../context/exercise.context';
 
@@ -22,7 +22,7 @@ const ExerciseFormCreate: React.FC = () => {
     exerciseContext.setExercises(updatedExercises);
   };
 
-  const handleCreateExercise = (exercise: Exercise) => {
+  const handleCreateExercise = (exercise: NewExercise) => {
     createExercise(exercise)
       .then((response) => response.data)
       .then((data) => {
@@ -56,7 +56,7 @@ const ExerciseFormCreate: React.FC = () => {
   const formik = useFormik({
     initialValues: initialExerciseData,
     validationSchema,
-    onSubmit: (values: Exercise) => handleCreateExercise(values),
+    onSubmit: (values: NewExercise) => handleCreateExercise(values),
   });
 
   return (

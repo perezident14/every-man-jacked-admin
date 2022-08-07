@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Container, createTheme, CssBaseline, LinearProgress, ThemeProvider } from '@mui/material';
 import { useExerciseContext } from '../../context/exercise.context';
 import { useFeedbackContext } from '../../context/feedback.context';
-import { Exercise, initialExerciseData } from '../../models/exercise.model';
+import { Exercise, initialExerciseRender } from '../../models/exercise.model';
 import ExerciseForm from './ExerciseForm';
 
 const ExerciseEditor: React.FC = () => {
@@ -15,7 +15,7 @@ const ExerciseEditor: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const [exercise, setExercise] = useState<Exercise>(initialExerciseData);
+  const [exercise, setExercise] = useState<Exercise>(initialExerciseRender);
   const [loading, setLoading] = useState<Boolean>(true);
 
   const handleSetExercise = (updatedExercise: Exercise) => {
