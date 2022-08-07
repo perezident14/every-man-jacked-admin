@@ -1,5 +1,4 @@
-import { useNavigate } from 'react-router-dom';
-import { FitnessCenterRounded, KeyboardBackspace } from '@mui/icons-material';
+import { FitnessCenterRounded } from '@mui/icons-material';
 import { Avatar, Box, Button, Container, createTheme, CssBaseline, FormControl, Grid, MenuItem, TextField, ThemeProvider, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -17,7 +16,6 @@ const ExerciseForm = ({ id, exercise, handleSetExercise }: ExerciseFormProps) =>
 
   const theme = createTheme();
   const feedbackContext = useFeedbackContext();
-  const navigate = useNavigate();
 
   const handleUpdateExercise = (exercise: Exercise) => {
     updateExercise(id, exercise)
@@ -59,11 +57,6 @@ const ExerciseForm = ({ id, exercise, handleSetExercise }: ExerciseFormProps) =>
     <ThemeProvider theme={theme}>
       <Container component='main' maxWidth='md'>
         <CssBaseline />
-        <Button onClick={() => navigate('/exercises')} sx={{ display: 'flex', position: 'absolute', marginTop: -4 }}>
-          <KeyboardBackspace />
-          &nbsp;
-          Back to Exercises
-        </Button>
         <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column', marginTop: 8 }}>
           <Avatar sx={{ margin: 1, backgroundColor: 'secondary' }}>
             <FitnessCenterRounded />

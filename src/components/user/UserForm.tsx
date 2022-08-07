@@ -1,5 +1,4 @@
-import { useNavigate } from 'react-router-dom';
-import { KeyboardBackspace, PeopleRounded } from '@mui/icons-material';
+import { PeopleRounded } from '@mui/icons-material';
 import { Avatar, Box, Button, Container, createTheme, CssBaseline, FormControl, Grid, MenuItem, TextField, ThemeProvider, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -17,7 +16,6 @@ const UserForm = ({ id, user, handleSetUser }: UserFormProps) => {
 
   const theme = createTheme();
   const feedbackContext = useFeedbackContext();
-  const navigate = useNavigate();
 
   const handleUpdateUser = (updatedUser: User) => {
     updateUser(id, updatedUser)
@@ -57,11 +55,6 @@ const UserForm = ({ id, user, handleSetUser }: UserFormProps) => {
     <ThemeProvider theme={theme}>
       <Container component='main' maxWidth='md'>
         <CssBaseline />
-        <Button onClick={() => navigate('/users')} sx={{ display: 'flex', position: 'absolute', marginTop: -4 }}>
-          <KeyboardBackspace />
-          &nbsp;
-          Back to Users
-        </Button>
         <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column', marginTop: 8 }}>
           <Avatar sx={{ margin: 1, backgroundColor: 'secondary' }}>
             <PeopleRounded />

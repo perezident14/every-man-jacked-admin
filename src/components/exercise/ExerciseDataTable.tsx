@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Delete, Edit } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
+import { IconButton, useMediaQuery, useTheme } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 import { useExerciseContext } from '../../context/exercise.context';
 import { DataType } from '../../models/data.model';
@@ -11,7 +11,10 @@ import DeleteModal from '../DeleteModal';
 const ExerciseDataTable: React.FC = () => {
 
   const exerciseContext = useExerciseContext();
+  const theme = useTheme();
   const navigate = useNavigate();
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.between('xs', 'sm'));
 
   const [exerciseId, setExerciseId] = useState<string>('');
   const [exerciseTitle, setExerciseTitle] = useState<string>('');
@@ -38,7 +41,7 @@ const ExerciseDataTable: React.FC = () => {
 
   const columns: GridColDef[] = [
     { field: 'title', headerName: 'Title', minWidth: 300, flex: 1 },
-    { field: 'categories', headerName: 'Categories', width: 300 },
+    { field: 'categories', headerName: 'Categories', width: 300, hide: isSmallScreen ? true : false },
     { field: 'actions', headerName: 'Actions', align: 'center', width: 100, sortable: false,
       renderCell: (params) => {
         return (
