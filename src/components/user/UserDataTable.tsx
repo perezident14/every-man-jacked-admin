@@ -40,9 +40,9 @@ const UserDataTable: React.FC = () => {
   };
 
   const columns: GridColDef[] = [
+    { field: 'email', headerName: 'Email', minWidth: 200, flex: 1 },
     { field: 'firstName', headerName: 'First Name', width: 200, hide: isSmallScreen ? true : false },
     { field: 'lastName', headerName: 'Last Name', width: 200, hide: isSmallScreen ? true : false },
-    { field: 'email', headerName: 'Email', minWidth: 200, flex: 1 },
     { field: 'role', headerName: 'Role', width: 100, hide: isSmallScreen ? true : false },
     { field: 'actions', headerName: 'Actions', align: 'center', width: 100, sortable: false,
       renderCell: (params) => {
